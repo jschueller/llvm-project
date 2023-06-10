@@ -229,6 +229,13 @@ function(llvm_map_components_to_libnames out_libs)
     endforeach()
   endif()
 
+  # all symbols come from libLLVM library
+  # https://github.com/llvm/llvm-project/issues/34593
+  if(LLVM_LINK_LLVM_DYLIB)
+    set(${out_libs} LLVM PARENT_SCOPE)
+    return ()
+  endif ()
+
   # Expand some keywords:
   if(engine IN_LIST link_components)
     if(${LLVM_NATIVE_ARCH} IN_LIST LLVM_TARGETS_TO_BUILD AND
